@@ -1,0 +1,60 @@
+
+how do i display search results in Python Tkinter window
+Asked 8 years, 5 months ago
+Modified 8 years, 5 months ago
+Viewed 9k times
+
+Report this ad
+1
+
+I am not sure if this question has been asked, but i have looked around and did not find anything specific to my problem. I am trying to build an App to search though all dirs and sub dirs for specific files by there ext(.txt, .mkv, .mp3) mostly these extention will be used (if it matters) I would like the program to display the findings in a text area(text field of sort) to show file name and path.
+
+I have a script that i am working with but i'm not sure if it is the best way to go about it. So my question is how do i binde the existing script to the button widget. i think? there could be more. again still learning.
+
+If there is an easier way(less steps = cleaner code) please "show me the code" Documentation is always helpful but a "hands on" method works best for me. I am still learning Python and Tkinter now. This is not the complete code. i have removed everything that was not working for me so very incomplete.
+from tkinter import *
+from tkinter import ttk
+from sys import argv
+import glob
+import os
+
+search_input = argv
+#code in question
+def find_files():
+    for dirname, dirnames, filenames in os.walk('/home'):
+        for i in glob.glob('/*'+searchinput):
+            listbox.insert(END, search_input)
+
+#Code in question
+
+main = Tk()
+main.title("FSX")
+main.geometry('640x480')
+
+frame1 = ttk.Frame(main, height=200, width=400)
+frame1.pack()
+
+entry = Entry(frame1, width=30)
+entry.pack()
+
+button1 = ttk.Button(frame1, text="Search", command=find_files)
+button1.pack()
+button1.bind ('<ButtonPress>', lambda e: progressbar.start())
+
+button2 = ttk.Button(frame1, text="Quit")
+button2.pack()
+button2.bind ('<ButtonPress>', lambda e: exit())
+
+progressbar = ttk.Progressbar(frame1, orient = HORIZONTAL, length = 200,      mode = 'indeterminate')
+progressbar.pack()
+#progressbar.start()
+
+frame2 = ttk.Frame(main, height=200, width=400)
+frame2.pack()
+
+listbox = Listbox(frame2, height=200, width=400)
+listbox.pack(fill=BOTH, expand=YES)
+
+progressbar.stop()
+
+main.mainloop()

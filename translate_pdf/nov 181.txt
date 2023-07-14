@@ -1,0 +1,73 @@
+<?php
+
+// Path to the Magmi directory
+$magmiPath = '/path/to/magmi/';
+
+// Magento root directory
+$magentoPath = '/path/to/magento/';
+
+// Excel file path
+$excelFilePath = '/path/to/excel/file.csv';
+
+// Image directory path accessible by Magento
+$imageDirectory = '/path/to/image/directory/';
+
+// Include Magmi library
+require_once($magmiPath . 'inc/magmi_defs.php');
+require_once($magmiPath . 'integration/inc/magmi_datapump.php');
+
+// Create Magmi DataPump instance
+$dp = Magento_Dataflow_Model_Convert_Parser_Csv::factory(array(
+    'path' => $excelFilePath,
+    'delimiter' => ','
+));
+
+// Set Magento root directory
+Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
+Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_EVENTS);
+
+// Initialize Magento indexer
+Mage::getSingleton('index/indexer')->processEntityAction(
+    Mage_Catalog_Model_Product::ENTITY,
+    Mage_Index_Model_Event::TYPE_MASS_ACTION,
+    Mage_Index_Model_Event::TYPE_REINDEX
+);
+
+// Import images
+$dp->parse();
+$importedRows = $dp->getParsed();
+
+if (!empty($importedRows)) {
+    foreach ($importedRows as $row) {
+        $sku = $row['sku'];
+        $imageName = $row['image'];
+
+        $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $sku);
+        if ($product) {
+            $mediaGalleryAttribute = $product->getResource()->getAttribute('media_gallery');
+            $mediaGalleryAttribute->getBackend()->addImage(
+                $product,
+                $imageDirectory . $imageName,
+                null,
+                false,
+                false
+            );
+            $product->save();
+        }
+    }
+}
+
+// Update image position to 4
+$mediaGalleryProcessor = new Magmi_MediaAttributeProcessor();
+$mediaGalleryProcessor->updateMediaGallery($magentoPath, $magmiPath);
+
+// Reindex Magento
+$process = Mage::getModel('index/process')->load(9); // ID 9 is for Catalog Product Flat
+$process->reindexEverything();
+
+// Clear Magento cache
+Mage::app()->cleanCache();
+
+echo "Image import and position update completed.";
+
+?>

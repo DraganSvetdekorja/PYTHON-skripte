@@ -1,0 +1,33 @@
+import pandas as pd
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file.filename.endswith('.csv'):
+            df = pd.read_csv(file)
+        elif file.filename.endswith(('.xls', '.xlsx')):
+            df = pd.read_excel(file)
+        else:
+            return render_template('index.html', error='Invalid file format. Please upload a CSV or Excel file.')
+
+        # Filter products based on user input
+        filter_value = request.form.get('filter')
+        if filter_value:
+            df = df[df['Product'].str.contains(filter_value, case=False)]
+
+        # Sort products based on user input
+        sort_column = request.form.get('sort')
+        if sort_column:
+            df = df.sort_values(sort_column)
+
+        products = df.to_dict('records')
+        return render_template('index.html', products=products)
+
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)

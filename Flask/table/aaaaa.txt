@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Viewer</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product Viewer</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <br>
+        <input type="text" name="search" placeholder="Filter by keyword">
+        <br>
+        <select name="sort">
+            <option value="">Sort by</option>
+            <option value="product_name">Product Name</option>
+            <option value="price">Price</option>
+            <!-- Add more columns here -->
+        </select>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if table %}
+        {{ table | safe }}
+    {% endif %}
+</body>
+</html>

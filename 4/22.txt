@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Excel to HTML Table</title>
+    
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Include TableSorter plugin -->
+    <script src="https://cdn.jsdelivr.net/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+    
+    <!-- Include TableFilter plugin -->
+    <script src="https://cdn.jsdelivr.net/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.tablesorter/2.31.3/css/theme.default.min.css">
+    
+    <script>
+        $(document).ready(function() {
+            // Apply TableSorter plugin to the table
+            $("#excelTable").tablesorter();
+            
+            // Apply TableFilter plugin to the table
+            $("#excelTable").tablesorter({
+                theme: "default",
+                widgets: ['zebra', 'filter'],
+                widgetOptions: {
+                    filter_columnFilters: false
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <!-- Insert the generated HTML table here -->
+    <!-- Replace "output.html" with the actual generated file name -->
+    <!-- Make sure the ID of the table is "excelTable" -->
+    <div id="excelTable">
+        <!-- Content of the generated HTML table -->
+        <!-- For example: -->
+        <!-- <table>...</table> -->
+    </div>
+</body>
+</html>

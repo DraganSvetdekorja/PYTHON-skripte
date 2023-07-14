@@ -1,0 +1,30 @@
+import pandas as pd
+from prettytable import PrettyTable
+
+def convert_excel_to_html(input_file):
+    # Read the Excel file using Pandas
+    df = pd.read_excel(input_file)
+    
+    # Create a PrettyTable object
+    table = PrettyTable(df.columns)
+    
+    # Add rows to the table
+    for row in df.itertuples(index=False):
+        table.add_row(row)
+    
+    # Convert the table to HTML
+    html_table = table.get_html_string()
+    
+    return html_table
+
+# Main function
+if __name__ == "__main__":
+    # Path to the Excel file
+    excel_file = "path/to/your/excel/file.xlsx"
+    
+    # Convert Excel to HTML table
+    html_table = convert_excel_to_html(excel_file)
+    
+    # Generate the HTML file
+    with open("output.html", "w") as file:
+        file.write(html_table)

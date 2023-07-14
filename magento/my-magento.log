@@ -1,0 +1,5 @@
+2023-06-14 13:06:23 DEBUG  |[ MyMagento | my-magento ]|:  Initialized MyMagento
+2023-06-14 13:08:03 DEBUG  Starting new HTTPS connection (1): www.whatismybrowser.com:443
+2023-06-14 13:08:04 DEBUG  https://www.whatismybrowser.com:443 "GET /guides/the-latest-user-agent/chrome HTTP/1.1" 200 None
+2023-06-14 13:27:42 DEBUG  |[ MyMagento | my-magento ]|:  Initialized MyMagento
+2023-06-14 13:30:58 DEBUG  |[ MyMagento | my-magento ]|:  Initialized MyMagento

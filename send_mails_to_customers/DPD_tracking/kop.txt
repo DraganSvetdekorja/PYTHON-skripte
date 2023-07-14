@@ -1,0 +1,113 @@
+import pandas as pd
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+import zipfile
+
+
+def read_excel_data(file_path):
+    """
+    Read data from the Excel file and return a DataFrame.
+    """
+    df = pd.read_excel(file_path)
+    return df
+
+
+def create_email_message(name, email, template_file):
+    """
+    Create the email message by replacing placeholders in the template with customer data.
+    """
+    with open(template_file, 'r') as file:
+        template = file.read()
+
+    message = template.replace('{name}', name).replace('{email}', email)
+    return message
+
+
+def attach_files_to_email(file_paths, email_message):
+    """
+    Attach files to the email message.
+    """
+    for file_path in file_paths:
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload(open(file_path, 'rb').read())
+        encoders.encode_base64(part)
+        part.add_header('Content-Disposition', 'attachment', filename=file_path)
+        email_message.attach(part)
+
+
+def send_email(smtp_host, smtp_port, smtp_username, smtp_password, sender_email, recipient_email, subject, message):
+    """
+    Send the email.
+    """
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = recipient_email
+    msg['Subject'] = subject
+    msg.attach(MIMEText(message, 'html'))
+
+    with smtplib.SMTP(smtp_host, smtp_port) as server:
+        server.starttls()
+        server.login(smtp_username, smtp_password)
+        server.send_message(msg)
+
+
+def compress_files(file_paths, output_file):
+    """
+    Compress files into a ZIP archive.
+    """
+    with zipfile.ZipFile(output_file, 'w', zipfile.ZIP_DEFLATED) as zipf:
+        for file_path in file_paths:
+            zipf.write(file_path, arcname=file_path)
+
+
+def send_emails_from_excel(file_path, template_file, attachment_files, smtp_host, smtp_port, smtp_username, smtp_password, sender_email, subject):
+    """
+    Send emails to customers from an Excel file using the provided template and attachments.
+    """
+    # Read data from the Excel file
+    df = read_excel_data(file_path)
+
+    # Iterate over the DataFrame rows
+    for index, row in df.iterrows():
+        # Read customer data from the row
+        name = row['Name']
+        email = row['Email']
+
+        # Create the email message
+        message = create_email_message(name, email, template_file)
+
+        # Create a compressed attachment
+        compressed_attachment = f'{name}_attachments.zip'
+        compress_files(attachment_files, compressed_attachment)
+
+        # Attach the compressed file to the email
+        email_message = MIMEMultipart()
+        email_message.attach(MIMEText(message, 'html'))
+        attach_files_to_email([compressed_attachment], email_message)
+
+        # Send the email
+        send_email(smtp_host, smtp_port, smtp_username, smtp_password, sender_email, email, subject, email_message.as_string())
+
+        # Delete the compressed file
+        zipf.close()
+        del zipf
+
+
+# SMTP server settings
+smtp_host = 'your_smtp_host'
+smtp_port = 587
+smtp_username = 'your_username'
+smtp_password = 'your_password'
+sender_email = 'your_email@example.com'
+subject = 'Your Subject'
+
+# File paths
+excel_file = 'customers.xlsx'
+template_file = 'template.html'
+attachment_files = ['file1.txt', 'file2.txt']
+
+# Send emails
+send_emails_from_excel(excel_file, template_file, attachment_files, smtp_host, smtp_port, smtp_username, smtp_password, sender_email, subject)

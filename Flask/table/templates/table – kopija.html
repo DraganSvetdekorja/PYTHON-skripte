@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Table: {{ table_name }}</title>
+	
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+  
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
+<script>
+
+$(document).ready( function () {
+
+	$(table).attr('id', 'table');
+
+    $('#myTable').DataTable();
+} );
+
+</script>
+
+</head>
+<body>
+    <h1>{{ table_name }}</h1>
+
+<div id="example_wrapper" class="dataTables_wrapper"><div class="dataTables_length" id="example_length"><label>Show <select name="example_length" aria-controls="example" class=""><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div><div id="example_filter" class="dataTables_filter"><label>Search:<input type="search" class="" placeholder="" aria-controls="example"></label></div>
+
+ 
+<!--     <table id="myTable"  class="display dataTable" style="width:100%" aria-describedby="example_info"> -->
+       {{ data | safe }}
+ <!--     </table> -->
+	
+<div class="dataTables_info" id="example_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div><div class="dataTables_paginate paging_simple_numbers" id="example_paginate"><a class="paginate_button previous disabled" aria-controls="example" aria-disabled="true" aria-role="link" data-dt-idx="previous" tabindex="-1" id="example_previous">Previous</a><span><a class="paginate_button current" aria-controls="example" aria-role="link" aria-current="page" data-dt-idx="0" tabindex="0">1</a><a class="paginate_button " aria-controls="example" aria-role="link" data-dt-idx="1" tabindex="0">2</a><a class="paginate_button " aria-controls="example" aria-role="link" data-dt-idx="2" tabindex="0">3</a><a class="paginate_button " aria-controls="example" aria-role="link" data-dt-idx="3" tabindex="0">4</a><a class="paginate_button " aria-controls="example" aria-role="link" data-dt-idx="4" tabindex="0">5</a><a class="paginate_button " aria-controls="example" aria-role="link" data-dt-idx="5" tabindex="0">6</a></span><a class="paginate_button next" aria-controls="example" aria-role="link" data-dt-idx="next" tabindex="0" id="example_next">Next</a></div></div>
+	
+	
+
+	
+</body>
+</html>

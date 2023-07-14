@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Collection</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery and Table Sorting Plugin -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize table sorting plugin
+            $("#product-table").tablesorter();
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Product Collection</h1>
+        <table class="table table-striped" id="product-table">
+            <thead>
+                <tr>
+                    <th>SKU</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product[0] }}</td>  <!-- SKU -->
+                    <td>{{ product[1] }}</td>  <!-- Name -->
+                    <td>{{ product[2] }}</td>  <!-- Price -->
+                    <td>
+                        <img src="{{ product[3] }}" alt="Product Image" style="max-width: 100px;">
+                    </td>  <!-- Image -->
+                    <td>{{ product[4] }}</td>  <!-- Category -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

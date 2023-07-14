@@ -1,0 +1,27 @@
+Converting an entire website into a Python application involves a significant amount of work, as it requires replicating the functionality, design, and structure of the website. Additionally, without access to the specific code and resources of the website you mentioned (https://www.svetdekorja.si/kalkulator-rol/), it's challenging to provide an exact conversion.
+
+However, I can give you a general idea of how you can approach converting a website into a Python application. Here's a step-by-step guide:
+
+Analyze the Website: Study the website's functionality, including its features, user interface, and interactions. Identify the key components and understand how they work together.
+
+Choose a Framework: Select a Python web framework such as Django or Flask. These frameworks provide tools and libraries to help you build web applications more efficiently.
+
+Set Up the Project: Install the chosen framework and create a new project. Set up the necessary dependencies and configure the project's settings.
+
+Replicate the HTML: Begin by recreating the HTML structure of the website. Use HTML templates provided by the framework to define the layout, structure, and content of the web pages.
+
+Migrate Static Assets: Move static assets like CSS stylesheets, JavaScript files, and images to the appropriate directories within the project. Update the HTML templates to reference these assets correctly.
+
+Handle Form Submissions: Identify any forms present on the website and recreate them using the form handling features of the chosen framework. Implement the necessary validation and processing logic.
+
+Implement Business Logic: Identify the underlying business logic of the website, such as calculations or data processing. Implement this logic in Python within your application.
+
+Manage User Authentication: If the website has user authentication functionality, use the framework's built-in authentication features or relevant libraries to manage user registration, login, and sessions.
+
+Handle Database Operations: If the website relies on a database, configure the framework to connect to the database and define models representing the website's data structures. Migrate the database schema and handle data operations accordingly.
+
+Test and Debug: Continuously test and debug your Python application to ensure it behaves as expected. Verify that all functionalities are working correctly and handle any issues that arise.
+
+Deploy the Application: Once you have completed the development and testing process, deploy your Python application to a web server or cloud platform so that it can be accessed by users.
+
+Remember, this is a general overview, and the specific steps and requirements will vary depending on the complexity and features of the website you want to convert. It's also worth noting that converting a website into a Python application can be a time-consuming task, so be prepared for a significant amount of work.
